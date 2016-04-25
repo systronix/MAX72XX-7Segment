@@ -1,3 +1,23 @@
+/**
+ * This program is a test of the MAX7219 8-digit LED displays available on eBay and elsewhere.
+ * They have a SPI-like Interface.
+ * You can get an 8-digit 7-segment display for under $5.
+ * 
+ * I wrote this to test out all possible characters by illuminating all segments of the LEDs
+ * These are 7-segment displays so... 
+ * There are 7 digit segments plus the decimal point for 8 LEDs total per digit
+ * 0x01 middle '-'
+ * 0x02 upper left
+ * 0x04 lwer left
+ * 0x08 bottom
+ * 0x10 lower right
+ * 0x20 upper right
+ * 0x40 top
+ * 0x80 dec point
+ * 
+ * So values 0x80..0xFF are the same as 0x00..0x7F but with decimal point lit.
+ */
+
 //We always have to include the library
 #include "LedControl.h"
 
@@ -64,8 +84,7 @@ void writeArduinoOn7Segment() {
 
 /*
   This method will scroll all the hexa-decimal
- numbers and letters on the display. You will need at least
- four 7-Segment digits. otherwise it won't really look that good.
+ numbers and letters on the display. 
 
  Digit 0 is the right-most. 7 is left-most.
  */
@@ -86,7 +105,7 @@ void scrollDigits() {
 }
 
 /**
- * Write all hexadecimal values 0..F to a digit
+ * Write all hexadecimal values 0..F to all digits
  */
 void testAllHexValues() {
   for(uint16_t val=0; val <=0x0f; val++)
@@ -105,18 +124,7 @@ void testAllHexValues() {
 
 /**
  * Turn on segments, only one segment lit at a time
- * There are 7 digit segments plus the decimal point so 8 LEDs per digit
- * 0x01 middle '-'
- * 0x02 upper left
- * 0x04 lwer left
- * 0x08 bottom
- * 0x10 lower right
- * 0x20 upper right
- * 0x40 top
- * 0x80 dec point
- * 
- * So values 0x80 and above are the same as 0x00 and above
- * but with decimal point lit.
+ * See notes on segment addresses at top of file
  */
 void testSingleSegments() {
   for(uint16_t val=1; val <=0xFF; val=val<<1)
